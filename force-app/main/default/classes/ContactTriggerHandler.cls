@@ -1,6 +1,5 @@
 public with sharing class ContactTriggerHandler {
     public static void afterInsertHandler(List<Contact> newContacts) {
-        
         Set<Id> accountIds = new Set<Id>();
         for(Contact con : newContacts) {
             accountIds.add(con.AccountId);
@@ -9,8 +8,6 @@ public with sharing class ContactTriggerHandler {
             }
         }
         AccountContactService.updateActiveContacts(accountIds);
-
-    
     }
     public static void afterUpdateHandler(List<Contact> newContacts, Map<Id, Contact> oldContactsMap) {
         Set<Id> accountIds = new Set<Id>();
@@ -26,5 +23,26 @@ public with sharing class ContactTriggerHandler {
         }
         AccountContactService.updateActiveContacts(accountIds); 
     
+    }
+    public static void afterDeleteHandler(List<Contact> oldContacts) {
+        Set<Id> accountIds = new Set<Id>();
+        for(Contact con : oldContacts) {
+            accountIds.add(con.AccountId);
+            if(String.isNotBlank(con.AccountId)) {
+                String accountId = con.AccountId;                    
+            }
+        }
+        AccountContactService.updateActiveContacts(accountIds);
+    }
+
+    public static void afterUndeleteHandler(List<Contact> oldContacts) {
+        Set<Id> accountIds = new Set<Id>();
+        for(Contact con : oldContacts) {
+            accountIds.add(con.AccountId);
+            if(String.isNotBlank(con.AccountId)) {
+                String accountId = con.AccountId;                    
+            }
+        }
+        AccountContactService.updateActiveContacts(accountIds);
     }
 }

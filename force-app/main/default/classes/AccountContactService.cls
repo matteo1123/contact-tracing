@@ -8,16 +8,21 @@ public with sharing class AccountContactService {
             GROUP BY AccountId
         ];
         // build final list of accounts to update
-        List<Account> accountsToUpdate = new List<Account>();
+        Map<Id, Account> accountsToUpdate = new Map<Id, Account>();
         for (AggregateResult result : results) {
             // get account id and number of active contacts
             String accId = String.valueOf(result.get('AccountId'));
             Integer totalContacts = Integer.valueOf(result.get('totalContacts'));
             // make sure you use Id feild in your account to update it
             Account acc = new Account(Id = accId, Active_Contacts__c = totalContacts);
-            accountsToUpdate.add(acc);
+            accountsToUpdate.put(accId, acc);
+        }
+        for (Id accId : accountIds) {
+            if (accountsToUpdate.containsKey(accId)) {
+                accountsToUpdate.put(accId, new Account(Id = accId, Active_Contacts__c =0));
+            }
         }
         // update the final list of account
-        update accountsToUpdate;
+        update accountsToUpdate.values();
     }
 }
