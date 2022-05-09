@@ -1,0 +1,37 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+    <aura:attribute
+        name="modes"
+        type="List"
+        default="[
+    {'label': 'Easy', 'value': 'easy'},
+    {'label': 'Medium', 'value': 'medium'},
+    {'label': 'Hard', 'value': 'hard'},
+    ]"
+    />
+
+    <aura:attribute name="selectedMode" type="String" />
+
+    <lightning:card title="Word Shuffle">
+        <lightning:layout multipleRows="true" horizontalAlign="center">
+            <lightning:layoutItem  padding="around-small">
+                 <lightning:combobox name="modeCombobox" label="Game Mode" variant="label-hidden" value="inProgress" options="{!v.modes}" placeholder="Select Game Mode" aura:id="modeCombobox" />
+            </lightning:layoutItem>
+            <lightning:layoutItem  padding="around-small">
+                <lightning:button aura:id="startNewGameButton" variant="brand" label="Start New Game" title="Start New Game" onclick="{!c.startGame}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small">
+                <lightning:button label="Reshuffle" title="Reshuffle" onclick="{!c.reshuffleBoard}"  />                 
+            </lightning:layoutItem>
+            <aura:if isTrue="{!v.selectedMode}" >
+                fiesta
+                <lightning:layoutItem size="12">
+                    <c:Board aura:id="board" mode="{!v.selectedMode}"></c:Board>
+                </lightning:layoutItem>
+            </aura:if>
+        </lightning:layout>
+        <!-- bound expression -->
+        <p>Selected mode is : {!v.selectedMode}</p>
+            <!-- unbound expression -->
+        <!-- <p>Selected mode is : {#v.selectedMode}</p> -->
+    </lightning:card>
+</aura:component>
