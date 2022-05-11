@@ -1,9 +1,8 @@
 ({
-    getWords : function(count) {
-        if(count > 100) {
-            return;
-        }
-        let wordsArray = [            
+    getWords: function (count) {
+        if (count > 100) return;
+        // build an array
+        let wordsArray = [
             "expansion",
             "grandfather",
             "nappy",
@@ -105,13 +104,20 @@
             "sidewalk",
             "reply"
         ];
+        // Randomize the words array
         wordsArray = this.randomizeArray(wordsArray);
-        return wordsArray.slice(0, count);
+        // open= false property
+        const wordObjArray = wordsArray.map((element) => {
+            return { word: element, open: false };
+        });
+        // return requested words
+        return wordObjArray.slice(0, count);
     },
-    randomizeArray : function(arr) {
-        const randomArr = arr;
 
-        for(let i = randomArr.length - 1; i > 0; i--) {
+    randomizeArray: function (arr) {
+        const randomArr = arr;
+        // Randomize the array
+        for (let i = randomArr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i);
             const temp = randomArr[i];
             randomArr[i] = randomArr[j];
@@ -119,14 +125,31 @@
         }
         return randomArr;
     },
-    getWinWord : function(arr) {
+
+    getWinWord: function (arr) {
         const randomIndex = Math.floor(Math.random() * arr.length);
-        return arr[randomIndex];
+        return arr[randomIndex].word;
     },
-    disableBoard : function(component) {
-        component.set("v.boardDisabled", true);s
+
+    disableBoard: function (component) {
+        component.set("v.boardDisabled", true);
     },
-    enableBoard : function(component) {
-        component.set("v.boardDisabled", false);s
+
+    enableBoard: function (component) {
+        component.set("v.boardDisabled", false);
     },
-})
+
+    resetBoard: function (component) {
+        this.enableBoard(component);
+        // reset the counter
+        component.set("v.clickCount", 0);
+        // reset the result
+        component.set("v.result", "");
+    },
+
+    fireResultEvent: function (resultValue) {
+        const appevent = $A.get("e.c:ResultApplicationEvent");
+        appevent.setParams({ result: resultValue });
+        appevent.fire();
+    }
+});
