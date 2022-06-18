@@ -6,6 +6,6 @@
     }
   ],
   "namespace": "",
-  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sfdcLoginUrl": "http://hiremattdev3-dev-ed.my.salesforce.com",
   "sourceApiVersion": "48.0"
 }
